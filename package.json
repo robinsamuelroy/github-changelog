@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:generator": "vitest run --config vitest.scripts.config.mts",
-    "typecheck:scripts": "tsc -p tsconfig.scripts.json"
+    "typecheck:scripts": "tsc -p tsconfig.scripts.json",
+    "generate": "node scripts/generate-changelog.mts"
   },
   "private": true,
   "packageManager": "npm@11.19.1",
