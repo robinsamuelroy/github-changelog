@@ -1,0 +1,25 @@
+<header class="header">
+  <div class="brand">
+    <span class="mark" aria-hidden="true"></span>
+    <div>
+      <p class="eyebrow">Changelog</p>
+      <h1 class="title">
+        <a [href]="snapshot().repository.url" target="_blank" rel="noopener noreferrer">
+          <span class="owner">{{ snapshot().repository.owner }}</span
+          ><span class="slash">/</span>{{ snapshot().repository.name }}
+        </a>
+      </h1>
+    </div>
+  </div>
+
+  <ul class="meta">
+    <li class="chip">
+      <span class="chip-label">Angular</span>
+      <span class="chip-value">v{{ snapshot().angularVersion }}</span>
+    </li>
+    <li class="chip">
+      <span class="chip-label">Updated</span>
+      <time class="chip-value" [attr.datetime]="snapshot().generatedAt">{{ updated() }}</time>
+    </li>
+  </ul>
+</header>

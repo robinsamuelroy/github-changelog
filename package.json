@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:generator": "vitest run --config vitest.scripts.config.mts",
     "typecheck:scripts": "tsc -p tsconfig.scripts.json",
-    "generate": "node scripts/generate-changelog.mts"
+    "generate": "node scripts/generate-changelog.mts",
+    "sample": "node scripts/make-sample-snapshot.mts"
   },
   "private": true,
   "packageManager": "npm@11.19.1",

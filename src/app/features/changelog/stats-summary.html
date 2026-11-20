@@ -1,0 +1,22 @@
+<section class="stats" aria-label="Summary of closed issues">
+  <dl class="grid">
+    <div class="card card--total">
+      <dt class="label">Closed issues</dt>
+      <dd class="value">{{ stats().total }}</dd>
+    </div>
+    <div class="card card--completed">
+      <dt class="label"><span class="dot" aria-hidden="true"></span>Completed</dt>
+      <dd class="value">{{ stats().completed }}</dd>
+    </div>
+    <div class="card card--not-planned">
+      <dt class="label"><span class="dot" aria-hidden="true"></span>Not planned</dt>
+      <dd class="value">{{ stats().notPlanned }}</dd>
+    </div>
+    @if (stats().unknown > 0) {
+      <div class="card card--unknown">
+        <dt class="label"><span class="dot" aria-hidden="true"></span>Other reason</dt>
+        <dd class="value">{{ stats().unknown }}</dd>
+      </div>
+    }
+  </dl>
+</section>

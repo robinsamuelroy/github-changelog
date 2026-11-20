@@ -1,0 +1,86 @@
+.page {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem) 4rem;
+}
+
+.placeholder {
+  margin: 1.5rem 0 0;
+  color: var(--muted);
+}
+
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding: 3rem 1.5rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+}
+
+.state-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--completed-bg);
+  color: var(--completed);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.state--error .state-icon {
+  background: var(--unknown-bg);
+  color: var(--unknown);
+}
+
+.state-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.state-text {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+.button {
+  margin-top: 1.25rem;
+  padding: 0.5rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--accent);
+  }
+}
+
+.skeleton {
+  width: min(100%, 24rem);
+  height: 4rem;
+  margin-bottom: 1rem;
+  border-radius: var(--radius);
+  background: linear-gradient(90deg, var(--surface-2), var(--border), var(--surface-2));
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

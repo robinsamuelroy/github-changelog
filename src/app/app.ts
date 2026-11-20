@@ -1,11 +1,33 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangelogService } from './core/changelog.service';
+import { ChangelogHeader } from './features/changelog/changelog-header';
+import { StatsSummary } from './features/changelog/stats-summary';
 
 @Component({
-  imports: [],
   selector: 'app-root',
-  styleUrl: './app.scss',
+  imports: [ChangelogHeader, StatsSummary],
   templateUrl: './app.html',
+  styleUrl: './app.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {
-  protected readonly title = signal('github-changelog');
+  private readonly changelog = inject(ChangelogService);
+
+  protected readonly snapshot = computed(() => {
+    const state = this.changelog.state();
+    return state.status === 'ready' ? state.snapshot : null;
+  });
+
+  protected readonly errorMessage = computed(() => {
+    const state = this.changelog.state();
+    return state.status === 'error' ? state.message : null;
+  });
+
+  constructor() {
+    void this.changelog.load();
+  }
+
+  protected retry(): void {
+    void this.changelog.load();
+  }
 }
