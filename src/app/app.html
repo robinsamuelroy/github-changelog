@@ -13,7 +13,7 @@
         </p>
       </section>
     } @else {
-      <p class="placeholder">{{ snap.issues.length }} closed issues loaded.</p>
+      <app-changelog-list [issues]="snap.issues" />
     }
   } @else if (errorMessage(); as message) {
     <section class="state state--error" role="alert">

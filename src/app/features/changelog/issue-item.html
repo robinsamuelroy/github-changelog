@@ -1,0 +1,47 @@
+<article [class]="'issue issue--' + modifier()">
+  <div class="main">
+    <h3 class="title">
+      <span class="number">#{{ issue().number }}</span>
+      <a class="link" [href]="issue().url" target="_blank" rel="noopener noreferrer">{{
+        issue().title
+      }}<span class="sr-only"> (opens on GitHub)</span></a>
+    </h3>
+
+    @if (issue().labels.length > 0) {
+      <ul class="labels" aria-label="Labels">
+        @for (label of issue().labels; track label.name) {
+          <li class="label">
+            <span
+              class="label-dot"
+              aria-hidden="true"
+              [style.background-color]="labelColor(label.color)"
+            ></span
+            >{{ label.name }}
+          </li>
+        }
+      </ul>
+    }
+
+    <p class="meta">
+      @if (issue().author; as author) {
+        <span class="author">
+          @if (author.avatarUrl; as avatar) {
+            <img class="avatar" [src]="avatar" alt="" width="20" height="20" loading="lazy" />
+          } @else {
+            <span class="avatar avatar--initial" aria-hidden="true">{{ initial() }}</span>
+          }
+          <span class="sr-only">Author: </span>{{ author.login }}
+        </span>
+      } @else {
+        <span class="author">Unknown author</span>
+      }
+      <span aria-hidden="true">·</span>
+      <span>Closed <time [attr.datetime]="issue().closedAt">{{ closed() }}</time></span>
+    </p>
+  </div>
+
+  <span [class]="'badge badge--' + modifier()">
+    <span aria-hidden="true">{{ icon() }}</span>
+    {{ reasonLabel() }}
+  </span>
+</article>

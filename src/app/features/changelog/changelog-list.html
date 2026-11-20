@@ -1,0 +1,31 @@
+<app-filter-bar
+  [(filters)]="filters"
+  [labels]="labels()"
+  [showOther]="hasUnknown()"
+  [shown]="filtered().length"
+  [total]="issues().length"
+/>
+
+@if (groups().length === 0) {
+  <section class="empty" aria-labelledby="no-results-title">
+    <h2 id="no-results-title" class="empty-title">No issues match your filters</h2>
+    <p class="empty-text">Try a different search term or remove a filter.</p>
+    <button type="button" class="button" (click)="clear()">Clear filters</button>
+  </section>
+} @else {
+  @for (group of groups(); track group.key) {
+    <section class="month" [attr.aria-labelledby]="'month-' + group.key">
+      <h2 class="month-title" [id]="'month-' + group.key">
+        {{ group.label }}
+        <span class="month-count"
+          >{{ group.issues.length }} {{ group.issues.length === 1 ? 'issue' : 'issues' }}</span
+        >
+      </h2>
+      <ul class="issues">
+        @for (issue of group.issues; track issue.id) {
+          <li><app-issue-item [issue]="issue" /></li>
+        }
+      </ul>
+    </section>
+  }
+}

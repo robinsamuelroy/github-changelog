@@ -1,0 +1,46 @@
+<div class="bar" role="search">
+  <div class="field field--search">
+    <label class="sr-only" for="issue-search">Search issues by title, number or author</label>
+    <input
+      #search
+      id="issue-search"
+      class="input"
+      type="search"
+      placeholder="Search title, #number or author"
+      autocomplete="off"
+      [value]="filters().query"
+      (input)="setQuery(search.value)"
+    />
+  </div>
+
+  <div class="group" role="group" aria-label="Filter by closure reason">
+    @for (option of reasons(); track option.value) {
+      <button
+        type="button"
+        class="seg"
+        [attr.aria-pressed]="filters().reason === option.value"
+        (click)="setReason(option.value)"
+      >
+        {{ option.label }}
+      </button>
+    }
+  </div>
+
+  @if (labels().length > 0) {
+    <div class="field">
+      <label class="sr-only" for="issue-label">Filter by label</label>
+      <select #labelSelect id="issue-label" class="input" (change)="setLabel(labelSelect.value)">
+        <option value="" [selected]="filters().label === null">All labels</option>
+        @for (name of labels(); track name) {
+          <option [value]="name" [selected]="filters().label === name">{{ name }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  @if (active()) {
+    <button type="button" class="clear" (click)="clear()">Clear filters</button>
+  }
+</div>
+
+<p class="count" role="status" aria-live="polite">{{ summary() }}</p>
