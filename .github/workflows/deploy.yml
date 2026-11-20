@@ -1,0 +1,64 @@
+name: Deploy changelog to GitHub Pages
+
+on:
+  # Every push; the job below only runs for the repository's default branch.
+  push:
+  # Manual refresh from the Actions tab ("Run workflow"), no code change needed.
+  workflow_dispatch:
+
+# Least privilege for the automatic GITHUB_TOKEN. Nothing else is used.
+permissions:
+  contents: read
+  issues: read
+  pages: write
+  id-token: write
+
+# Never run two deployments at once; let a running one finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # Push: only the default branch (whatever it is called). Manual run: always.
+    if: github.event_name == 'workflow_dispatch' || github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Run generator tests
+        run: npm run test:generator
+
+      - name: Fetch closed issues into public/changelog.json
+        run: npm run generate
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_GRAPHQL_URL: ${{ github.graphql_url }}
+
+      # base href is "./" in src/index.html, so the build works under any /<repo>/ path.
+      - name: Build Angular app
+        run: npx ng build --configuration production
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/github-changelog/browser
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
